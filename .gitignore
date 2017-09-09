@@ -1,0 +1,14 @@
+bin/
+pkg/
+src/github.com/alecthomas/gometalinter
+src/github.com/fatih/motion
+src/github.com/golang/lint
+src/github.com/josharian/impl
+src/github.com/jstemmer/gotags
+src/github.com/kisielk/errcheck
+src/github.com/kisielk/gotool
+src/github.com/klauspost/asmfmt
+src/github.com/nsf/gocode
+src/github.com/rogpeppe/godef
+src/github.com/zmb3/gogetdoc
+src/golang.org/x/tools
