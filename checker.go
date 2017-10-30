@@ -10,8 +10,27 @@ type Checker interface {
 	Message(args ...interface{}) string
 }
 
+// Not
+
+func Not(checker Checker) Checker {
+	return not{checker}
+}
+
+type not struct {
+	checker Checker
+}
+
+func (c not) Check(args ...interface{}) bool {
+	return !c.checker.Check(args...)
+}
+
+func (c not) Message(args ...interface{}) string {
+	return c.checker.Message(args...)
+}
+
 // IsNil
 var IsNil Checker = isNil{}
+var IsNotNil = Not(IsNil)
 
 type isNil struct {
 }
@@ -37,24 +56,6 @@ func (isNil) Message(args ...interface{}) string {
 
 }
 
-// Not
-
-func Not(checker Checker) Checker {
-	return not{checker}
-}
-
-type not struct {
-	checker Checker
-}
-
-func (c not) Check(args ...interface{}) bool {
-	return !c.checker.Check(args...)
-}
-
-func (c not) Message(args ...interface{}) string {
-	return c.checker.Message(args...)
-}
-
 // Equals
 var Equals = equals{}
 
@@ -66,6 +67,20 @@ func (equals) Check(args ...interface{}) bool {
 }
 
 func (equals) Message(args ...interface{}) string {
+	return fmt.Sprintf("\nobtained: %v\nexpected: %v", args[0], args[1])
+}
+
+// Deep Equals
+var DeepEquals = deepEquals{}
+
+type deepEquals struct {
+}
+
+func (deepEquals) Check(args ...interface{}) bool {
+	return reflect.DeepEqual(args[0], args[1])
+}
+
+func (deepEquals) Message(args ...interface{}) string {
 	return fmt.Sprintf("\nobtained: %v\nexpected: %v", args[0], args[1])
 }
 
